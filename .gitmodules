@@ -1,0 +1,3 @@
+[submodule "training/BasicSR"]
+	path = training/BasicSR
+	url = https://github.com/victorca25/BasicSR.git
