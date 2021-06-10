@@ -29,8 +29,12 @@ CLIP_BD_ = source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たち�
     + source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00002.dgi')
 
 
-# Since both DVD and BD doesn't have the props, we need to add them.
+
+# Since both DVD and BD doesn't have the matrix props, we need to add them.
 # If not, colours won't match.
+
+# _FieldBased is also added since Kaguya is a 2:3 pulldown
+# and we removed this flag with dgdecodenv.DGSource
 PROPS_DVD: Set[Tuple[str, int]] = {
     ('_ChromaLocation', 0),
     ('_Matrix', 5),
@@ -81,8 +85,9 @@ class PrepareDataset:  # noqa: PLC0115
             bd_ = bd_.std.SetFrameProp(prop, intval=val)
 
         # Prepare the HR and LR clip for dataset
-        print('Prepare RGB24...\n')
+        print('Prepare HR RGB24...\n')
         hr_ = self.prepare_hr(bd_)
+        print('Prepare LR RGB24...\n')
         lr_ = self.prepare_lr(dvd)
 
 
@@ -120,6 +125,7 @@ class PrepareDataset:  # noqa: PLC0115
         return ups.std.Crop(top=6, bottom=7).resize.Bicubic(
             CLIP_DVD.width*2, CLIP_DVD.height*2, vs.RGB24,
             src_left=-0.5, src_top=0.5, dither_type='error_diffusion'
+            # And swap the planes for gbr output
         ).std.ShufflePlanes([1, 2, 0], vs.RGB)
 
     @staticmethod
@@ -131,12 +137,16 @@ class PrepareDataset:  # noqa: PLC0115
         if isinstance(ups, list):
             raise TypeError
 
-        return ups.resize.Bicubic(format=vs.RGB24, dither_type='error_diffusion').std.ShufflePlanes([1, 2, 0], vs.RGB)
+        return ups.resize.Bicubic(
+            format=vs.RGB24, dither_type='error_diffusion'
+            # And swap the planes for gbr output
+        ).std.ShufflePlanes([1, 2, 0], vs.RGB)
 
 
 
 class ExportDataset:  # noqa: PLC0115
     def write_image_async(self, dataset: Dataset) -> None:  # noqa: PLC0116
+        # This method is slower :(
         print('Extract LR...\n')
         self._output_images(dataset.lr)
         print('Extract HR...\n')
@@ -217,5 +227,5 @@ else:
     CLIP_BD_.set_output(1)
     # dts.lr.clip.resize.Point(720*8, 480*8).text.FrameProps().set_output(0)
     # dts.hr.clip.resize.Bicubic(720, 480).resize.Point(720*8, 480*8).text.FrameProps().set_output(1)
-    # dts.lr.clip.text.FrameProps().set_output(0)
-    # dts.hr.clip.resize.Bicubic(720, 480).text.FrameProps().set_output(1)
+    dts.lr.clip.text.FrameProps().set_output(2)
+    dts.hr.clip.resize.Bicubic(720, 480).text.FrameProps().set_output(3)
