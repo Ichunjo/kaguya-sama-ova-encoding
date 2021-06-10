@@ -51,14 +51,14 @@ PROPS_BD: Set[Tuple[str, int]] = {
 }
 
 
-class ClipForDataset(NamedTuple):  # noqa: PLC0115
+class ClipForDatasets(NamedTuple):  # noqa: PLC0115
     clip: vs.VideoNode
     res_type: str
 
 
-class Dataset(NamedTuple):  # noqa: PLC0115
-    hr: ClipForDataset
-    lr: ClipForDataset
+class Datasets(NamedTuple):  # noqa: PLC0115
+    hr: ClipForDatasets
+    lr: ClipForDatasets
 
 
 PATH_DATASET = Path('dataset')
@@ -67,7 +67,7 @@ PATH_DATASET_VAL = PATH_DATASET.joinpath('val')
 
 
 class PrepareDataset:  # noqa: PLC0115
-    def prepare(self) -> Dataset:  # noqa: PLC0116
+    def prepare(self) -> Datasets:  # noqa: PLC0116
         # Make your adjustments to match the framerates and frames
         dvd = CLIP_DVD
         bd_ = CLIP_BD_
@@ -113,8 +113,8 @@ class PrepareDataset:  # noqa: PLC0115
         lr_ = core.std.Splice([lr_[f] for f in frames])
 
 
-        return Dataset(hr=ClipForDataset(hr_, 'HR'),
-                       lr=ClipForDataset(lr_, 'LR'))
+        return Datasets(hr=ClipForDatasets(hr_, 'HR'),
+                        lr=ClipForDatasets(lr_, 'LR'))
 
 
     @staticmethod
@@ -150,7 +150,7 @@ class PrepareDataset:  # noqa: PLC0115
 
 
 class ExportDataset:  # noqa: PLC0115
-    def write_image_async(self, dataset: Dataset) -> None:  # noqa: PLC0116
+    def write_image_async(self, dataset: Datasets) -> None:  # noqa: PLC0116
         # This method is slower :(
         print('Extract LR...\n')
         self._output_images(dataset.lr)
@@ -158,7 +158,7 @@ class ExportDataset:  # noqa: PLC0115
         self._output_images(dataset.hr)
 
     @staticmethod
-    def _output_images(clip_dts: ClipForDataset) -> None:
+    def _output_images(clip_dts: ClipForDatasets) -> None:
         if not (path := PATH_DATASET_TRAIN.joinpath(clip_dts.res_type)).exists():
             path.mkdir(parents=True)
 
@@ -184,7 +184,7 @@ class ExportDataset:  # noqa: PLC0115
 
 
 
-    def write_video(self, dataset: Dataset) -> None:  # noqa: PLC0116
+    def write_video(self, dataset: Datasets) -> None:  # noqa: PLC0116
         print('Encode and extract LR...\n')
         self._encode_and_extract(dataset.lr)
         print('Encode and extract HR...\n')
@@ -192,7 +192,7 @@ class ExportDataset:  # noqa: PLC0115
 
 
     @staticmethod
-    def _encode_and_extract(clip_dts: ClipForDataset) -> None:
+    def _encode_and_extract(clip_dts: ClipForDatasets) -> None:
         if not (path := PATH_DATASET_TRAIN.joinpath(clip_dts.res_type)).exists():
             path.mkdir(parents=True)
 
@@ -210,7 +210,7 @@ class ExportDataset:  # noqa: PLC0115
 
 
     @staticmethod
-    def select_val_images(dataset: Dataset, number: int) -> None:  # noqa: PLC0116
+    def select_val_images(dataset: Datasets, number: int) -> None:  # noqa: PLC0116
         if not (path_val_hr := PATH_DATASET_VAL.joinpath(dataset.hr.res_type)).exists():
             path_val_hr.mkdir(parents=True)
         if not (path_val_lr := PATH_DATASET_VAL.joinpath(dataset.lr.res_type)).exists():
