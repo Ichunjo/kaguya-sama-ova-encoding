@@ -131,6 +131,7 @@ dmypy.json
 
 # Own stuff
 .vspreview
-datasets
+*.png
+*.mkv
 GOOYA_S2_BDMV
 GOOYA_S2_DVDISO
