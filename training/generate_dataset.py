@@ -1,6 +1,7 @@
 """Generate a dataset for use in BasicSR"""
 
 
+import os
 import random
 import subprocess
 from pathlib import Path
@@ -52,13 +53,17 @@ PROPS_BD: Set[Tuple[str, int]] = {
 
 class ClipForDataset(NamedTuple):  # noqa: PLC0115
     clip: vs.VideoNode
-    path: Path
+    res_type: str
 
 
 class Dataset(NamedTuple):  # noqa: PLC0115
     hr: ClipForDataset
     lr: ClipForDataset
 
+
+PATH_DATASET = Path('dataset')
+PATH_DATASET_TRAIN = PATH_DATASET.joinpath('train')
+PATH_DATASET_VAL = PATH_DATASET.joinpath('val')
 
 
 class PrepareDataset:  # noqa: PLC0115
@@ -108,14 +113,14 @@ class PrepareDataset:  # noqa: PLC0115
         lr_ = core.std.Splice([lr_[f] for f in frames])
 
 
-        return Dataset(hr=ClipForDataset(hr_, Path('datasets/HR/')),
-                       lr=ClipForDataset(lr_, Path('datasets/LR/')))
+        return Dataset(hr=ClipForDataset(hr_, 'HR'),
+                       lr=ClipForDataset(lr_, 'LR'))
 
 
     @staticmethod
     def prepare_hr(clip: vs.VideoNode) -> vs.VideoNode:
         """Prepare HR clip in RGB24"""
-        clip = depth(clip, 16)
+        clip = depth(clip, 16).std.AssumeFPS(fpsnum=24, fpsden=1)
 
         ups = vdf.scale.to_444(clip, znedi=True)
         if isinstance(ups, list):
@@ -131,7 +136,7 @@ class PrepareDataset:  # noqa: PLC0115
     @staticmethod
     def prepare_lr(clip: vs.VideoNode) -> vs.VideoNode:
         """Prepare LR clip in RGB24"""
-        clip = depth(clip, 16)
+        clip = depth(clip, 16).std.AssumeFPS(fpsnum=24, fpsden=1)
 
         ups = vdf.scale.to_444(clip, znedi=True)
         if isinstance(ups, list):
@@ -152,17 +157,10 @@ class ExportDataset:  # noqa: PLC0115
         print('Extract HR...\n')
         self._output_images(dataset.hr)
 
-
-    def write_video(self, dataset: Dataset) -> None:  # noqa: PLC0116
-        print('Encode and extract LR...\n')
-        self._encode_and_extract(dataset.lr, 'lr')
-        print('Encode and extract HR...\n')
-        self._encode_and_extract(dataset.hr, 'hr')
-
     @staticmethod
     def _output_images(clip_dts: ClipForDataset) -> None:
-        if not clip_dts.path.exists():
-            clip_dts.path.mkdir(parents=True)
+        if not (path := PATH_DATASET_TRAIN.joinpath(clip_dts.res_type)).exists():
+            path.mkdir(parents=True)
 
         # Pretty progress bar
         progress = Progress(TextColumn("{task.description}"), BarColumn(),
@@ -177,37 +175,59 @@ class ExportDataset:  # noqa: PLC0115
                 progress.update(task, advance=1)
 
             clip = clip_dts.clip.imwri.Write(
-                'PNG', filename=str(clip_dts.path.joinpath('gooya_%06d.png'))
+                'PNG', filename=str(path.joinpath('%06d.png'))
             )
 
             clip_async_render(clip, callback=_cb)
 
+
+
+
+
+    def write_video(self, dataset: Dataset) -> None:  # noqa: PLC0116
+        print('Encode and extract LR...\n')
+        self._encode_and_extract(dataset.lr)
+        print('Encode and extract HR...\n')
+        self._encode_and_extract(dataset.hr)
+
+
     @staticmethod
-    def _encode_and_extract(clip_dts: ClipForDataset, dataset_type: str) -> None:
-        if not clip_dts.path.exists():
-            clip_dts.path.mkdir(parents=True)
+    def _encode_and_extract(clip_dts: ClipForDataset) -> None:
+        if not (path := PATH_DATASET_TRAIN.joinpath(clip_dts.res_type)).exists():
+            path.mkdir(parents=True)
 
-        clip = clip_dts.clip.std.AssumeFPS(fpsnum=24, fpsden=1)
-        output = clip_dts.path.joinpath(dataset_type).with_suffix('.mkv')
-
-        # Export in lossless RGB
         params = [
-            'ffmpeg', '-f', 'rawvideo',
-            '-s', f'{clip.width}x{clip.height}',
-            '-pix_fmt', 'gbrp', '-r', '24/1',
+            'ffmpeg', '-hide_banner', '-f', 'rawvideo',
+            '-video_size', f'{clip_dts.clip.width}x{clip_dts.clip.height}',
+            '-pixel_format', 'gbrp', '-framerate', str(clip_dts.clip.fps),
             '-i', 'pipe:',
-            '-vcodec', 'ffv1', '-coder', '1', '-context', '0', '-g', '1', '-level', '3',
-            '-threads', '16', '-slices', '24', '-slicecrc', '1',
-            str(output)
+            path.joinpath('%06d.png')
         ]
 
         print('Encoding...\n')
         with subprocess.Popen(params, stdin=subprocess.PIPE) as process:
-            clip.output(cast(BinaryIO, process.stdin))
+            clip_dts.clip.output(cast(BinaryIO, process.stdin))
 
-        print('Extracting frames...\n')
-        params = ['ffmpeg', '-i', str(output), '-r', '24/1', clip_dts.path.joinpath('gooya_%06d.png')]
-        subprocess.run(params, check=True, text=True, encoding='utf-8')
+
+    @staticmethod
+    def select_val_images(dataset: Dataset, number: int) -> None:  # noqa: PLC0116
+        if not (path_val_hr := PATH_DATASET_VAL.joinpath(dataset.hr.res_type)).exists():
+            path_val_hr.mkdir(parents=True)
+        if not (path_val_lr := PATH_DATASET_VAL.joinpath(dataset.lr.res_type)).exists():
+            path_val_lr.mkdir(parents=True)
+
+        if not (path_train_hr := PATH_DATASET_TRAIN.joinpath(dataset.hr.res_type)).exists():
+            raise FileNotFoundError(f'{path_train_hr} not found')
+        if not (path_train_lr := PATH_DATASET_TRAIN.joinpath(dataset.lr.res_type)).exists():
+            raise FileNotFoundError(f'{path_train_lr} not found')
+
+        images_path = sorted(path_train_hr.glob('*.png'))
+        image_idx = random.sample(population=range(len(images_path)), k=number)
+
+        for i in image_idx:
+            name = images_path[i].name
+            os.system(f'copy "{path_train_hr.joinpath(name)}" "{path_val_hr.joinpath(name)}"')
+            os.system(f'copy "{path_train_lr.joinpath(name)}" "{path_val_lr.joinpath(name)}"')
 
 
 
@@ -218,6 +238,7 @@ if __name__ == '__main__':
     # And write the dataset!
     # ExportDataset().write_image_async(dts)
     ExportDataset().write_video(dts)
+    ExportDataset.select_val_images(dts, 20)
 
 else:
     # Preview
