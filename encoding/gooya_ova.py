@@ -2,12 +2,18 @@
 
 __author__ = 'Vardë'
 
-from typing import Set, Tuple
+from typing import List, Set, Tuple
+
+import lvsfunc as lvf
 import vapoursynth as vs
 import vardefunc as vdf
-from vardautomation import FileInfo, PresetAAC, PresetBD
-from vsutil import depth
+from G41Fun import DetailSharpen, MaskedDHA, SMDegrain
+from muvsfunc import SSIM_downsample
+from vardautomation import (ENGLISH, FSRCNNX_56_16_4_1, FileInfo,
+                            MatroskaXMLChapters, OGMChapters, PresetAAC,
+                            PresetBD)
 from vsgan import VSGAN
+from vsutil import depth, get_y, insert_clip, iterate, join, split
 
 core = vs.core
 
