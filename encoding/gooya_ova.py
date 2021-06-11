@@ -12,10 +12,39 @@ from vsgan import VSGAN
 core = vs.core
 
 JPDVD = FileInfo(
-    r"..\GOOYA_S2_DVDISO\[DVDISO][210519][Kaguya-sama wa Kokurasetai S2][Vol.1 Fin]\VIDEO_TS\VTS_01_1.dgi", 24, 34550,
+    "../GOOYA_S2_DVDISO/[DVDISO][210519][Kaguya-sama wa Kokurasetai S2][Vol.1 Fin]/VIDEO_TS/VTS_01_1.dgi", 24, 34550,
     idx=lambda x: core.dgdecodenv.DGSource(x, fieldop=1),
     preset=[PresetBD, PresetAAC]
 )
+
+JPDVD.chapter = "../GOOYA_S2_DVDISO/[DVDISO][210519][Kaguya-sama wa Kokurasetai S2][Vol.1 Fin]/VTS_01_0__VTS_01_1_1.txt"
+
+
+OPSTART, OPEND = 2350, 4506
+
+
+CLIP_JPBD: List[vs.VideoNode] = [
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00002.m2ts'),
+
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい？～天才たちの恋愛頭脳戦～2/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい？～天才たちの恋愛頭脳戦～2/BDMV/BDMV/STREAM/00002.m2ts'),
+
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00002.m2ts'),
+
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~4/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~4/BDMV/BDMV/STREAM/00002.m2ts'),
+
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~5/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~5/BDMV/BDMV/STREAM/00002.m2ts'),
+
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~6/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~6/BDMV/BDMV/STREAM/00002.m2ts'),
+]
+
+CLIP_JPBD_NCOP = lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00004.m2ts')
+
 
 
 
