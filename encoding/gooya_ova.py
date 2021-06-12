@@ -102,8 +102,9 @@ class Filtering:
 
 
         gan = self.gan_upscale(out)
-        w2x = self.waifu2x_upscale(out)
-        ai_upscale = lvf.misc.replace_ranges(gan, w2x, [(13750, 13833), (14548, 14805)])
+        # w2x = self.waifu2x_upscale(out)
+        # ai_upscale = lvf.misc.replace_ranges(gan, w2x, [(13750, 13833), (14548, 14805)])
+        ai_upscale = gan
 
         planes = split(ai_upscale)
 
