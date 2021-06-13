@@ -31,27 +31,27 @@ JPDVD.do_lossless = True
 OPSTART, OPEND = 2350, 4506
 
 
-CLIP_JPBD: List[vs.VideoNode] = [
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00001.m2ts'),
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00002.m2ts'),
+# CLIP_JPBD: List[vs.VideoNode] = [
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00001.m2ts'),
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00002.m2ts'),
 
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい？～天才たちの恋愛頭脳戦～2/BDMV/BDMV/STREAM/00001.m2ts'),
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい？～天才たちの恋愛頭脳戦～2/BDMV/BDMV/STREAM/00002.m2ts'),
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい？～天才たちの恋愛頭脳戦～2/BDMV/BDMV/STREAM/00001.m2ts'),
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい？～天才たちの恋愛頭脳戦～2/BDMV/BDMV/STREAM/00002.m2ts'),
 
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00001.m2ts'),
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00002.m2ts'),
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00001.m2ts'),
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00002.m2ts'),
 
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~4/BDMV/BDMV/STREAM/00001.m2ts'),
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~4/BDMV/BDMV/STREAM/00002.m2ts'),
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~4/BDMV/BDMV/STREAM/00001.m2ts'),
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~4/BDMV/BDMV/STREAM/00002.m2ts'),
 
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~5/BDMV/BDMV/STREAM/00001.m2ts'),
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~5/BDMV/BDMV/STREAM/00002.m2ts'),
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~5/BDMV/BDMV/STREAM/00001.m2ts'),
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~5/BDMV/BDMV/STREAM/00002.m2ts'),
 
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~6/BDMV/BDMV/STREAM/00001.m2ts'),
-    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~6/BDMV/BDMV/STREAM/00002.m2ts'),
-]
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~6/BDMV/BDMV/STREAM/00001.m2ts'),
+#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~6/BDMV/BDMV/STREAM/00002.m2ts'),
+# ]
 
-CLIP_JPBD_NCOP = lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00004.m2ts')
+# CLIP_JPBD_NCOP = lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00004.m2ts')
 
 
 
@@ -144,11 +144,11 @@ class Filtering:
 
 
 
-        opening = insert_clip(out, self.make_opening(), OPSTART)
-        opening = lvf.misc.replace_ranges(
-            opening, out, [(OPSTART+746, OPSTART+799), (OPSTART+920, OPSTART+999)]
-        )
-        out = opening
+        # opening = insert_clip(out, self.make_opening(), OPSTART)
+        # opening = lvf.misc.replace_ranges(
+        #     opening, out, [(OPSTART+746, OPSTART+799), (OPSTART+920, OPSTART+999)]
+        # )
+        # out = opening
 
 
 
@@ -172,7 +172,7 @@ class Filtering:
 
 
         # return src.resize.Spline16(1920, 1080), out
-        return depth(out, 10).std.Limiter(16 << 2, [235 << 2, 240 << 2], [0, 1, 2])
+        return depth(out, 10).std.Limiter(16 << 2, [235 << 2, 240 << 2], [0, 1, 2])[17948:]
 
     @staticmethod
     def gan_upscale(clip: vs.VideoNode) -> vs.VideoNode:
@@ -317,9 +317,9 @@ class EncodeGoBrrr(EncodeGoBrr):
     def run(self) -> None:
         self._parsing()
         self._encode()
-        self._audio_getter()
-        self.chapter()
-        self.merge()
+        # self._audio_getter()
+        # self.chapter()
+        # self.merge()
 
     def chapter(self) -> None:
         assert self.file.chapter
