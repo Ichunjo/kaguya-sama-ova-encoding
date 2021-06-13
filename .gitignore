@@ -135,3 +135,5 @@ dmypy.json
 *.mkv
 GOOYA_S2_BDMV
 GOOYA_S2_DVDISO
+*.csv
+*.ffindex
