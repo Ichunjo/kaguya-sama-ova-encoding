@@ -172,7 +172,7 @@ class Filtering:
 
 
         # return src.resize.Spline16(1920, 1080), out
-        return depth(out, 10).std.Limiter(16 << 2, [235 << 2, 240 << 2], [0, 1, 2])[17948:]
+        return depth(out, 10).std.Limiter(16 << 2, [235 << 2, 240 << 2], [0, 1, 2])[19868:]
 
     @staticmethod
     def gan_upscale(clip: vs.VideoNode) -> vs.VideoNode:
