@@ -5,7 +5,7 @@
 --rd 3 --no-rect --no-amp --rskip 1 --tu-intra-depth 2 --tu-inter-depth 2 --tskip
 --merange 48
 --no-strong-intra-smoothing
---psy-rd 2.00 --psy-rdoq 1.85 --no-open-gop --keyint 240 --min-keyint 24 --rc-lookahead 60 --bframes 16
---crf 15 --aq-mode 3 --aq-strength 1.0 --cbqpoffs -2 --crqpoffs -2 --qcomp 0.70
+--psy-rd 2.00 --psy-rdoq 1.4 --no-open-gop --keyint 240 --min-keyint 24 --rc-lookahead 60 --bframes 16
+--crf 16 --aq-mode 3 --aq-strength 0.85 --cbqpoffs 0 --crqpoffs 0 --qcomp 0.70
 --deblock=-1:0 --no-sao --no-sao-non-deblock
 --sar 1 --range limited --colorprim 1 --transfer 1 --colormatrix 1 --min-luma {min_luma:d} --max-luma {max_luma:d}
