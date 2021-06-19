@@ -20,38 +20,38 @@ from vsutil import depth, get_y, insert_clip, iterate, join, split
 core = vs.core
 
 JPDVD = FileInfo(
-    "../GOOYA_S2_DVDISO/[DVDISO][210519][Kaguya-sama wa Kokurasetai S2][Vol.1 Fin]/VIDEO_TS/VTS_01_1.dgi", 24, 34550,
+    Path("../GOOYA_S2_DVDISO/[DVDISO][210519][Kaguya-sama wa Kokurasetai S2][Vol.1 Fin]/VIDEO_TS/VTS_01_1.dgi").resolve(), 24, 34550,
     idx=lambda x: core.dgdecodenv.DGSource(x, fieldop=1),
     preset=[PresetBD, PresetAAC]
 )
-JPDVD.a_src = '../GOOYA_S2_DVDISO/[DVDISO][210519][Kaguya-sama wa Kokurasetai S2][Vol.1 Fin]/VTS_01_1 Ta0 48K 16bit 2ch.wav'
-JPDVD.chapter = "../GOOYA_S2_DVDISO/[DVDISO][210519][Kaguya-sama wa Kokurasetai S2][Vol.1 Fin]/VTS_01_0__VTS_01_1_1.txt"
+JPDVD.a_src = Path('../GOOYA_S2_DVDISO/[DVDISO][210519][Kaguya-sama wa Kokurasetai S2][Vol.1 Fin]/VTS_01_1 Ta0 48K 16bit 2ch.wav').resolve()
+JPDVD.chapter = Path("../GOOYA_S2_DVDISO/[DVDISO][210519][Kaguya-sama wa Kokurasetai S2][Vol.1 Fin]/VTS_01_0__VTS_01_1_1.txt").resolve()
 JPDVD.do_lossless = True
 
 OPSTART, OPEND = 2350, 4506
 
 
-# CLIP_JPBD: List[vs.VideoNode] = [
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00001.m2ts'),
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00002.m2ts'),
+CLIP_JPBD: List[vs.VideoNode] = [
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00002.m2ts'),
 
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい？～天才たちの恋愛頭脳戦～2/BDMV/BDMV/STREAM/00001.m2ts'),
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい？～天才たちの恋愛頭脳戦～2/BDMV/BDMV/STREAM/00002.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい？～天才たちの恋愛頭脳戦～2/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい？～天才たちの恋愛頭脳戦～2/BDMV/BDMV/STREAM/00002.m2ts'),
 
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00001.m2ts'),
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00002.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~3/BDMV/BDMV/STREAM/00002.m2ts'),
 
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~4/BDMV/BDMV/STREAM/00001.m2ts'),
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~4/BDMV/BDMV/STREAM/00002.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~4/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~4/BDMV/BDMV/STREAM/00002.m2ts'),
 
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~5/BDMV/BDMV/STREAM/00001.m2ts'),
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~5/BDMV/BDMV/STREAM/00002.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~5/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~5/BDMV/BDMV/STREAM/00002.m2ts'),
 
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~6/BDMV/BDMV/STREAM/00001.m2ts'),
-#     lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~6/BDMV/BDMV/STREAM/00002.m2ts'),
-# ]
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~6/BDMV/BDMV/STREAM/00001.m2ts'),
+    lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~6/BDMV/BDMV/STREAM/00002.m2ts'),
+]
 
-# CLIP_JPBD_NCOP = lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00004.m2ts')
+CLIP_JPBD_NCOP = lvf.misc.source('../GOOYA_S2_BDMV/かぐや様は告らせたい~天才たちの恋愛頭脳戦~1/BDMV/BDMV/STREAM/00004.m2ts')
 
 
 
@@ -75,7 +75,6 @@ class Filtering:
 
         src = depth(src, 16)
         out = src
-
 
 
         full = vdf.scale.to_444(out, znedi=True)
@@ -102,9 +101,9 @@ class Filtering:
 
 
         gan = self.gan_upscale(out)
-        # w2x = self.waifu2x_upscale(out)
-        # ai_upscale = lvf.misc.replace_ranges(gan, w2x, [(13750, 13833), (14548, 14805)])
-        ai_upscale = gan
+        w2x = self.waifu2x_upscale(out)
+        ai_upscale = lvf.misc.replace_ranges(gan, w2x, [(13750, 13833), (14548, 14805)])
+        # ai_upscale = gan
 
         planes = split(ai_upscale)
 
@@ -144,11 +143,11 @@ class Filtering:
 
 
 
-        # opening = insert_clip(out, self.make_opening(), OPSTART)
-        # opening = lvf.misc.replace_ranges(
-        #     opening, out, [(OPSTART+746, OPSTART+799), (OPSTART+920, OPSTART+999)]
-        # )
-        # out = opening
+        opening = insert_clip(out, self.make_opening(), OPSTART)
+        opening = lvf.misc.replace_ranges(
+            opening, out, [(OPSTART+746, OPSTART+799), (OPSTART+920, OPSTART+999)]
+        )
+        out = opening
 
 
 
@@ -169,10 +168,15 @@ class Filtering:
         out = decs
 
 
-
+        out = core.resize.Bicubic(
+            out, 1024, 576, vs.YUV444P10,
+            dither_type='error_diffusion',
+            filter_param_a=1/3, filter_param_b=1/3,
+            filter_param_a_uv=0, filter_param_b_uv=0.5
+        )
 
         # return src.resize.Spline16(1920, 1080), out
-        return depth(out, 10).std.Limiter(16 << 2, [235 << 2, 240 << 2], [0, 1, 2])[19868:]
+        return depth(out, 10).std.Limiter(16 << 2, [235 << 2, 240 << 2], [0, 1, 2])
 
     @staticmethod
     def gan_upscale(clip: vs.VideoNode) -> vs.VideoNode:
@@ -185,7 +189,7 @@ class Filtering:
         clip = clip.resize.Point(format=vs.RGB24, dither_type='error_diffusion')
 
         vsgan = VSGAN('cuda')
-        vsgan.load_model(r'..\training\BasicSR\experiments\Kaguya_template_001\models\95000_G.pth')
+        vsgan.load_model('95000_G.pth')
 
         return vsgan.run(clip).resize.Point(format=vs.YUV444PS, matrix=1)
 
@@ -319,7 +323,7 @@ class EncodeGoBrrr(EncodeGoBrr):
         self._encode()
         # self._audio_getter()
         # self.chapter()
-        # self.merge()
+        self.merge()
 
     def chapter(self) -> None:
         assert self.file.chapter
@@ -327,7 +331,7 @@ class EncodeGoBrrr(EncodeGoBrr):
 
         fps = self.file.clip_cut.fps
 
-        chapters = OGMChapters(self.file.chapter).ogm_to_chapters(fps, ENGLISH)
+        chapters = OGMChapters(self.file.chapter).to_chapters(fps, ENGLISH)
 
         path_chapters_xml = 'kaguya_ova_chapters.xml'
         chapters_xml = MatroskaXMLChapters(path_chapters_xml)
@@ -341,9 +345,9 @@ class EncodeGoBrrr(EncodeGoBrr):
     def merge(self) -> None:
         assert self.file.chapter
         BasicTool('mkvmerge', [
-            '-o', self.file.name_file_final,
-            '--track-name', '0:HEVC BDRip by Vardë@Raws-Maji', '--language', '0:jpn', self.file.name_clip_output,
-            '--tags', '--track-name', '0:AAC 2.0', '--language', '0:jpn', self.file.a_enc_cut.format(1),
+            '-o', str(self.file.name_file_final),
+            '--track-name', '0:HEVC BDRip by Vardë@Raws-Maji', '--language', '0:jpn', str(self.file.name_clip_output),
+            '--tags', '0:tags_aac.xml', '--track-name', '0:AAC 2.0', '--language', '0:jpn', self.file.a_enc_cut.format(1),
             '--chapter-language', 'jpn', '--chapters', self.file.chapter
         ]).run()
 
@@ -360,7 +364,7 @@ ENC_LOSS = LosslessEncoder(
         '-vcodec', 'ffv1',
         '-coder', '1', '-context', '0', '-g', '1', '-level', '3',
         '-threads', '16', '-slices', '24', '-slicecrc', '1', '-slicecrc', '1',
-        JPDVD.name_clip_output_lossless
+        str(JPDVD.name_clip_output_lossless)
     ],
     progress_update=progress_update
 )
@@ -384,6 +388,7 @@ if __name__ == '__main__':
     brrrrr.run()
 else:
     filtered = Filtering().main()
-    filtered.set_output(0)
+    # filtered.set_output(0)
     filtered[0].set_output(0)
     filtered[1].set_output(1)
+
