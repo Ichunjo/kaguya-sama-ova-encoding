@@ -137,3 +137,12 @@ GOOYA_S2_BDMV
 GOOYA_S2_DVDISO
 *.csv
 *.ffindex
+*.zip
+*.pth
+*.xml
+*.dll
+*.265
+test.py
+*.lwi
+encoding/gooya_ova_lossless.py
+encoding/nvenc_settings
